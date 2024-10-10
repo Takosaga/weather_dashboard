@@ -46,6 +46,10 @@ def main(
 ):
     logger.info("Fetching and processing weather data for Baltic capitals...")
 
+    # Create directories if they don't exist
+    RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    PROCESSED_DATA_DIR.mkdir(parents=True, exist_ok=True)
+
     cities = [
         {"name": "Tallinn", "lat": 59.4370, "lon": 24.7536},
         {"name": "Riga", "lat": 56.9496, "lon": 24.1052},
@@ -61,6 +65,10 @@ def main(
         logger.info(f"Data fetched for {city['name']}.")
 
     combined_data = pd.concat(all_data, ignore_index=True)
+    
+    # Ensure the parent directory of the output file exists
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    
     combined_data.to_csv(output_path, index=False)
     
     logger.success(f"Processing complete. Data saved to {output_path}")
